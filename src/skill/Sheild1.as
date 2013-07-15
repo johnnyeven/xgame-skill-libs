@@ -17,10 +17,10 @@ package skill
 	
 	public class Sheild1 extends HotkeyTrigger
 	{
+		public static const ID: String = "sheild1";
 		public function Sheild1()
 		{
 			super();
-			_id = "sheild1";
 		}
 		
 		public static function execute(): void
@@ -32,14 +32,14 @@ package skill
 			}
 			else
 			{
-				skillTarget = Map.instance.getWorldPosition(Scene.instance.stage.mouseX, Scene.instance.stage.mouseY);
+				skillTarget = Scene.instance.player;
 			}
-			prepareSkill(_id, skillTarget);
+			prepareSkill(skillTarget);
 		}
 		
-		protected static function prepareSkill(skillId: String, target: BitmapDisplay): void
+		protected static function prepareSkill(target: BitmapDisplay): void
 		{
-			var effect: SingEffectDisplay = new SingEffectDisplay(skillId, target);
+			var effect: SingEffectDisplay = new SingEffectDisplay(ID, target);
 			effect.owner = Scene.instance.player;
 			effect.graphic = ResourcePool.instance.getResourceData("assets.skill.prepareSkill");
 			effect.singTime = 1000;
@@ -54,14 +54,14 @@ package skill
 			
 			var sheild: StatusEffectDisplay = new StatusEffectDisplay(evt.skillId, evt.skillTarget);
 			sheild.owner = Scene.instance.player;
-			sheild.graphic = ResourcePool.instance.getResourceData("assets.skill.sheild1");
+			sheild.graphic = ResourcePool.instance.getResourceData("assets.skill." + ID);
 			sheild.render = new Render();
 			Scene.instance.player.addDisplay(sheild);
 		}
 		
-		public static function showSkillPrepare(owner: BitmapDisplay, skillId: String, target: BitmapDisplay): void
+		public static function showSkillPrepare(owner: BitmapDisplay, target: BitmapDisplay): void
 		{
-			var effect: SingEffectDisplay = new SingEffectDisplay(skillId, target);
+			var effect: SingEffectDisplay = new SingEffectDisplay(ID, target);
 			effect.owner = owner;
 			effect.graphic = ResourcePool.instance.getResourceData("assets.skill.prepareSkill");
 			effect.singTime = 1000;
@@ -69,11 +69,11 @@ package skill
 			owner.addDisplay(effect);
 		}
 		
-		public static function showSkillFire(owner: BitmapDisplay, skillId: String, target: BitmapDisplay): void
+		public static function showSkillFire(owner: BitmapDisplay, target: BitmapDisplay): void
 		{
-			var sheild: StatusEffectDisplay = new StatusEffectDisplay(skillId, target);
+			var sheild: StatusEffectDisplay = new StatusEffectDisplay(ID, target);
 			sheild.owner = owner;
-			sheild.graphic = ResourcePool.instance.getResourceData("assets.skill.sheild1");
+			sheild.graphic = ResourcePool.instance.getResourceData("assets.skill." + ID);
 			sheild.render = new Render();
 			target.addDisplay(sheild);
 		}

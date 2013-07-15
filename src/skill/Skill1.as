@@ -17,10 +17,11 @@ package skill
 
 	public class Skill1 extends HotkeyTrigger
 	{
+		public static const ID: String = "skill1";
+		
 		public function Skill1()
 		{
 			super();
-			_id = "skill1";
 		}
 		
 		public static function execute(): void
@@ -34,12 +35,12 @@ package skill
 			{
 				skillTarget = Map.instance.getWorldPosition(Scene.instance.stage.mouseX, Scene.instance.stage.mouseY);
 			}
-			prepareSkill(_id, skillTarget);
+			prepareSkill(skillTarget);
 		}
 		
-		protected static function prepareSkill(skillId: String, target: *): void
+		protected static function prepareSkill(target: *): void
 		{
-			var effect: SingEffectDisplay = new SingEffectDisplay(skillId, target);
+			var effect: SingEffectDisplay = new SingEffectDisplay(ID, target);
 			effect.owner = Scene.instance.player;
 			effect.graphic = ResourcePool.instance.getResourceData("assets.skill.prepareSkill");
 			effect.singTime = 1000;
@@ -62,11 +63,6 @@ package skill
 				tracker.addEventListener(SkillEvent.FIRE_COMPLETE, skillExplode, false, 0, true);
 				Scene.instance.addObject(tracker);
 			}
-			//			var sheild: StatusEffectDisplay = new StatusEffectDisplay(evt.skillId, evt.skillTarget);
-			//			sheild.owner = _target;
-			//			sheild.graphic = ResourcePool.instance.getResourceData("assets.skill.sheild1");
-			//			sheild.render = new Render();
-			//			_target.addDisplay(sheild);
 		}
 		
 		protected static function skillExplode(evt: SkillEvent): void
@@ -88,9 +84,9 @@ package skill
 			}
 		}
 		
-		public static function showSkillPrepare(owner: BitmapDisplay, skillId: String, target: *): void
+		public static function showSkillPrepare(owner: BitmapDisplay, target: *): void
 		{
-			var effect: SingEffectDisplay = new SingEffectDisplay(skillId, target);
+			var effect: SingEffectDisplay = new SingEffectDisplay(ID, target);
 			effect.owner = owner;
 			effect.graphic = ResourcePool.instance.getResourceData("assets.skill.prepareSkill");
 			effect.singTime = 1000;
@@ -99,26 +95,26 @@ package skill
 			owner.addDisplay(effect);
 		}
 		
-		public static function showSkillFire(owner: BitmapDisplay, skillId: String, target: *): void
+		public static function showSkillFire(owner: BitmapDisplay, target: *): void
 		{
 			var tracker: TrackEffectDisplay;
 			for(var i: int = 0; i < 5; i++)
 			{
-				tracker = new TrackEffectDisplay(skillId, target, new Point(owner.positionX, owner.positionY), .1, i);
+				tracker = new TrackEffectDisplay(ID, target, new Point(owner.positionX, owner.positionY), .1, i);
 				tracker.owner = owner;
-				tracker.graphic = ResourcePool.instance.getResourceData("assets.skill." + skillId + "_FIRE");
+				tracker.graphic = ResourcePool.instance.getResourceData("assets.skill." + ID + "_FIRE");
 				tracker.render = new Render();
 //				tracker.addEventListener(SkillEvent.FIRE_COMPLETE, skillExplode, false, 0, true);
 				Scene.instance.addObject(tracker);
 			}
 		}
 		
-		public static function showSkillExplode(owner: BitmapDisplay, skillId: String, target: *): void
+		public static function showSkillExplode(owner: BitmapDisplay, target: *): void
 		{
 			Debug.info(target, target.name);
-			var explode: AutoRemoveEffectDisplay = new AutoRemoveEffectDisplay(skillId, target);
+			var explode: AutoRemoveEffectDisplay = new AutoRemoveEffectDisplay(ID, target);
 			explode.owner = owner;
-			explode.graphic = ResourcePool.instance.getResourceData("assets.skill." + skillId + "_EXPLODE");
+			explode.graphic = ResourcePool.instance.getResourceData("assets.skill." + ID + "_EXPLODE");
 			explode.render = new Render();
 			
 			if(target is BitmapDisplay)
